@@ -1,8 +1,12 @@
+#![cfg_attr(not(feature = "std"), no_std)]
+
 #[cfg(test)]
 extern crate serde_json;
 #[cfg(test)]
 #[macro_use]
 extern crate serde_derive;
+
+extern crate alloc;
 
 pub mod aes;
 #[cfg(target_pointer_width = "32")]
@@ -19,6 +23,7 @@ pub mod hash512;
 pub mod nhs;
 pub mod rand;
 pub mod sha3;
+mod std;
 pub mod types;
 
 #[cfg(feature = "bls48")]

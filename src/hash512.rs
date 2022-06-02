@@ -17,6 +17,8 @@ specific language governing permissions and limitations
 under the License.
 */
 
+use crate::std::{vec, Vec};
+
 const HASH512_H0: u64 = 0x6a09e667f3bcc908;
 const HASH512_H1: u64 = 0xbb67ae8584caa73b;
 const HASH512_H2: u64 = 0x3c6ef372fe94f82b;

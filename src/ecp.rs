@@ -22,8 +22,7 @@ use super::big::Big;
 use super::fp::FP;
 use super::rom;
 
-use std::fmt;
-use std::str::SplitWhitespace;
+use crate::std::{fmt, format, str::SplitWhitespace, string::String};
 
 pub use super::rom::{AESKEY, CURVETYPE, CURVE_PAIRING_TYPE, HASH_TYPE, SEXTIC_TWIST, SIGN_OF_X};
 pub use crate::types::CurveType;
@@ -1286,7 +1285,6 @@ impl ECP {
         let P = self.mul(&c);
         *self = P.clone();
     }
-
 
     /// Map It
     ///

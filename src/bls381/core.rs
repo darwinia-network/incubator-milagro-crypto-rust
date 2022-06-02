@@ -29,6 +29,7 @@ use super::iso::{iso11_to_ecp, iso3_to_ecp2};
 use crate::errors::AmclError;
 use crate::hash256::HASH256;
 use crate::rand::RAND;
+use crate::std::{borrow::ToOwned, Vec};
 
 // Key Generation Constants
 /// Domain for key generation.
@@ -548,7 +549,8 @@ pub(crate) fn core_verify_g1(public_key: &[u8], msg: &[u8], signature: &[u8], ds
     let signature = signature.unwrap();
 
     // Subgroup checks for signature and public key
-    if !subgroup_check_g1(&signature) || !subgroup_check_g2(&public_key) || public_key.is_infinity() {
+    if !subgroup_check_g1(&signature) || !subgroup_check_g2(&public_key) || public_key.is_infinity()
+    {
         return false;
     }
 
@@ -702,7 +704,8 @@ pub(crate) fn core_verify_g2(public_key: &[u8], msg: &[u8], signature: &[u8], ds
     let signature = signature.unwrap();
 
     // Subgroup checks for signature and public key
-    if !subgroup_check_g1(&public_key) || public_key.is_infinity() || !subgroup_check_g2(&signature) {
+    if !subgroup_check_g1(&public_key) || public_key.is_infinity() || !subgroup_check_g2(&signature)
+    {
         return false;
     }
 
@@ -857,9 +860,9 @@ mod tests {
 
     #[test]
     fn test_hash_to_curve_g2() {
-        const H2C_SUITE_G2: &str = "BLS12381G2_XMD:SHA-256_SSWU_RO_";
+        const H2C_SUITE_G2_FILENAME: &str = "BLS12381G2_XMDSHA-256_SSWU_RO_";
         // Read hash to curve test vector
-        let reader = json_reader(H2C_SUITE_G2);
+        let reader = json_reader(H2C_SUITE_G2_FILENAME);
         let test_vectors: Bls12381Ro = serde_json::from_reader(reader).unwrap();
 
         // Iterate through each individual case
@@ -938,10 +941,10 @@ mod tests {
 
     #[test]
     fn test_hash_to_curve_g1() {
-        const H2C_SUITE_G1: &str = "BLS12381G1_XMD:SHA-256_SSWU_RO_";
+        const H2C_SUITE_G1_FILENAME: &str = "BLS12381G1_XMDSHA-256_SSWU_RO_";
 
         // Read hash to curve test vector
-        let reader = json_reader(H2C_SUITE_G1);
+        let reader = json_reader(H2C_SUITE_G1_FILENAME);
         let test_vectors: Bls12381Ro = serde_json::from_reader(reader).unwrap();
 
         // Iterate through each individual case
